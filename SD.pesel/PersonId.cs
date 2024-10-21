@@ -97,8 +97,10 @@ public class PersonId
     /// <returns>f</returns>
     public string GetGender()
     {
-        int genderDigit = int.Parse(_id.Substring(9, 1));
-        return genderDigit % 2 == 0 ? "k" : "m";
+        string id = _id;
+        int genderDigit = int.Parse(id[9].ToString());
+
+        return genderDigit % 2 == 0 ? "Kobieta" : "Mężczyzna";
     }
 
     /// <summary>
@@ -107,6 +109,17 @@ public class PersonId
     /// <returns></returns>
     public bool IsValid()
     {
-        return true;
+        string id = _id;
+        int[] weights = { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
+        int sum = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            sum += weights[i] * int.Parse(id[i].ToString());
+        }
+
+        int controlNumber = (10 - (sum % 10)) % 10;
+
+        return controlNumber == int.Parse(id[10].ToString());
     }
 }
